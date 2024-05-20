@@ -1,0 +1,44 @@
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+      <h2>Your infomation
+      <%= link_to edit_user_path(@user.id) do%>
+      <i class="fa-solid fa-file-pen"></i>
+      <% end %></h2>
+      <table class="table"><tbody>
+        <tr>
+      	  <th>name</th>
+      	  <th><%= @user.name %></th>
+        </tr>
+        <tr>
+      	  <th>introduction</th>
+      	  <th><%= @user.introduction %></th>
+        </tr> 
+      </tbody></table>
+      
+      <h2 class="mt-3">Share the Solale</h2>
+      <div class="row no-gutters">
+        <div class="col-md-5 col-sm-10 mx-2 mx-sm-auto shadow-lg rounded px-0 my-5">
+        <h5 class="text-dark bg-light p-4 mb-0">Solale image</h5>
+          <div class="form-body p-4">
+            <% if @post.errors.any? %>
+            <ul class="alert alert-danger" role="alert">
+            <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+            </ul>
+            <% end %>
+            <%= form_with model: @post do |f| %>
+            <%= f.file_field :body, accept: "image/*", class: "w-100" %>
+            <%= f.submit 'Share', class:"btn btn-lg btn-block btn-info mt-4" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-8 offset-md-1">
+    <h2>My Solale</h2>
+    </div>
+  </div> 
+</div>
