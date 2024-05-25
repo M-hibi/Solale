@@ -26,6 +26,11 @@ class UsersController < ApplicationController
   end
 
   def withdraw
+    @user = User.find(current_user.id)
+    @user.update(is_active: true)
+    reset_session
+    flash[:notice] = "今までのご利用ありがとうございました。"
+    redirect_to root_path  
   end
 
   private

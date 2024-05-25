@@ -1,53 +1,67 @@
 class PostsController < ApplicationController
   
+  def new
+    @post = Post.new
+  end
+
   def index
-    	@posts = Post.all
-    	@post = Post.new
+    @posts = Post.all
+    @tag_list = Tag.all    	
   end
   
   def show
-    	@post = Post.find(params[:id])
-    	@user = @post.user_id
+    @post = Post.find(params[:id])
+    @user = @post.user_id
+    @comment = Comment.new
+    @tag_list = Tag.all    	
   end
   
   def create
-  	@post = Post.new(post_params)
-  	@post.user_id = current_user.id
+    @post = Post.new(post_params)
+    tag_list = params[:post][:tag_names].split(',')
     if @post.save
-      flash[:notice] = "You posted Solale"
-      redirect_to post_path(@post.id)
+      @post.save_tags(tag_list)
+      redirect_to posts_path, success: t('Solaleを投稿しました')
     else
-      @posts = Post.all
-  		render :index
-    end    
+      render :new
+    end
   end
-  
+    
   def edit
-  	@post = Post.find(params[:id])
+    @post = Post.find(params[:id])
+    @tags = @post.tags.pluck(:name).join(',')
     unless @post.user.id == current_user.id
-    redirect_to posts_path
+      redirect_to posts_path
     end  
   end
 
   def destroy
   	post = Post.find(params[:id])
-  	 post.destroy
-  	redirect_to posts_path
+  	post.destroy
+  	redirect_to posts_path, success: t('Solaleとさよならしました')
   end
 
   def update
-    @post=Post.find(params[:id])
+    @post = Post.find(params[:id])
+    tag_list = params[:image][:tag_ids].split(',')
     if @post.update(post_params)
-    redirect_to post_path(@post),notice:"You edited Solale"
+      @post.update_tags(tag_list)
+      redirect_to root_path, success: t('Solaleを編集しました')
     else
-    render:edit
+      render :edit
     end
   end
 
-  private
-  def post_params
-    params.require(:post).permit(:body, :post_tag_id)
-  end
   
-end
+  def search 
+      @tag = params[:tag]
+      @posts = Post.joins(:tags).where('name LIKE ?',"#{@tag}")
+  end
 
+
+  private
+  
+  def post_params
+    params.require(:post).permit(:image).merge(user_id:current_user.id)
+  end
+end

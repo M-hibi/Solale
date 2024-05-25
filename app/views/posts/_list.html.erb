@@ -1,0 +1,32 @@
+  <div class="col-md-4">
+    <div class="grid gap-1">
+      <div class="card mt-4 shadow-lg h-100">
+        <%= link_to post_path(post.id) do %>
+          <%= image_tag post.image, size: "200x200", class: "card-img-top "; %>
+        <% end %>
+        <div class="card-body"><%# カードをすべて同じ大きさにしたい！　%>
+          <div class="row">
+            <div class="col-10">
+              <% post.tags.each do |tag| %>
+                <%= tag.name %>
+              <% end %>
+              <% if post.liked_by?(current_user) %>
+                    <p><%= link_to post_likes_path(post), method: :delete do %>
+                        <i class="fa-solid fa-sun"></i><%= post.likes.count %> いいね
+                     　 <% end %></p>
+              <% else %>
+                    <p><%= link_to post_likes_path(post), method: :post do %>
+                        <i class="fa-regular fa-sun"></i><%= post.likes.count %> いいね
+                      <% end %></p>
+                  <% end %>              
+              <% end %>  
+              <%= link_to post.created_at %>
+              <%= link_to(post_path(post.id), class: "text-dark") do %>
+                <strong><i class="fa-solid fa-circle-exclamation"></i><%# 通報機能追加 %></strong>
+              <% end %>                    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
