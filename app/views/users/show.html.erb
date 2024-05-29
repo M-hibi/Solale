@@ -1,6 +1,6 @@
-<div class="container px-5 px-sm-0">
+<div class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-9">
       <div class="d-flex justify-content-between">  
         <h3>あなたのページ
         <%= link_to edit_user_path(@user.id) do%>
@@ -11,45 +11,57 @@
         <tr>
       	  <th>名前</th>
       	  <th><%= @user.name %></th>
-        </tr>
-        <tr>
       	  <th>自己紹介</th>
       	  <th><%= @user.introduction %></th>
         </tr> 
+        <tr>
+      	  <th>フォロー</th>
+      	  <th><%= @user.introduction %></th>
+      	  <th>フォロワー</th>
+      	  <th><%= @user.introduction %></th>
+        </tr>         
       </tbody></table>
     </div>
+  </div>
   
-    <div class="col-md-9">
-    <h2>あなたのSolale</h2>
-      <div class="grid gap-3">
-        <div class="p-2 g-col-6">
-          <% @posts.each do |post| %>
-          <div class="card w-40 mt-4 shadow-lg">
+  <div class="col-9">
+    <h3>あなたのSolale</h3>
+  </div>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4">
+        <div class="card mt-4 shadow-lg">
+          <div>  
             <%= link_to post_path(post.id) do %>
-              <%= image_tag post.image, class: "card-img-top"; %>
+              <%= image_tag post.image, class: "card-img-top" %>
             <% end %>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-10">
-                  <p class="card-tag">
+          </div>  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-10">
+                <p class="card-tag">
                   <% post.tags.each do |tag| %>
-                  <%= tag.name %>
-                   <% end %>  
-                  <%= link_to(post_path(post.id), class: "text-dark") do %>
-                    <strong><i class="fa-solid fa-sun"></i>いいね機能追加</strong>
-                  <% end %>  
-                  </p>
-                  <%= link_to post.created_at %>
-                  <%= link_to(post_path(post.id), class: "text-dark") do %>
-                    <strong><i class="fa-solid fa-circle-exclamation"></i>通報機能追加</strong>
-                  <% end %>                    
-                </div>
+                    ＃<%= tag.name %>
+                  <% end %>
+                  <%= link_to edit_post_path(post.id) do %>
+                    <i class="fa-solid fa-file-pen"></i>
+                  <% end %>
+                  <%= post.likes.count %> Like
+                </p>
+                <p>Post Date:<%= post.created_at.strftime('%Y/%m/%d') %></p>
+                <div class="row">
+                  <div class="col">Comment:<%= post.comments.count %></div>
+                  <div class="col text-right">
+                    <%= link_to post_path(post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
+                      <i class="fa-solid fa-trash-can"></i>
+                    <% end %>
+                  </div>
+                </div>  
               </div>
             </div>
           </div>
-          <% end %>
-        </div>  
+        </div>
       </div>
-    </div>
-  </div> 
+    <% end %>
+  </div>  
 </div>

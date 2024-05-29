@@ -5,7 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          
   has_many :comments, dependent: :destroy
-  has_many :follows, dependent: :destroy
+  has_many :active_follows, class_name: "follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :passive_follows, class_name: "follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings, through: :active_follows, source: :followed
+  has_many :followers, through: :passive_follows, source: :follower
   has_many :likes, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :reports, dependent: :destroy
@@ -21,6 +24,18 @@ class User < ApplicationRecord
     
     def active_for_authentication?
       super && (self.is_active == false)
+    end
+    
+    def follow(user)
+      active_follows.create(followed_id: user.id)
+    end
+    
+    def unfollow(user)
+      active_follows.find_by(followed_id: user.id).destroy
+    end
+    
+    def following?(user)
+      followings.include?(user)
     end
 
 end

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get   '/users/:id/confirm',  to: 'users#confirm', as: 'users_confirm'
   patch  '/users/:id/withdraw', to: 'users#withdraw', as: 'users_withdraw'
   resource :follows, only: [:create, :destroy]
+  get "followings" => "follows#followings", as: "followings"
+  get "followers" => "follows#followers", as: "followers"
   end
   
   resources :posts do

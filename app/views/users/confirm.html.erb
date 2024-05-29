@@ -1,5 +1,11 @@
-<h1>本当に退会しますか？</h1>
-<p>退会すると、今までの投稿が閲覧できなくなります。</p>
-
-  <%= link_to "退会しない", user_path, :class => "btn btn-primary ms-3" %>
-  <%= link_to "退会する", user_users_withdraw_path, method: :patch, :class => "btn btn-danger ms-3", data: { confirm: "本当に退会しますか？" }  %>
+<div class="container">
+  <div class="row">
+    <div class=" mx-auto col-8">    
+    <h1>本当に退会しますか？</h1>
+    <p>退会すると、今までの投稿が閲覧できなくなります。</p>
+    
+    <%= link_to "退会しない", user_path, :class => "btn btn-primary ms-3 mr-3" %>
+    <%= link_to "退会する", user_users_withdraw_path, method: :patch, :class => "btn btn-danger ms-3", data: { confirm: "OKを押すと退会します。" }  %>
+    </div>
+  </div>
+</div>

@@ -1,32 +1,62 @@
-  <div class="col-md-4">
-    <div class="grid gap-1">
-      <div class="card mt-4 shadow-lg h-100">
-        <%= link_to post_path(post.id) do %>
-          <%= image_tag post.image, size: "200x200", class: "card-img-top "; %>
-        <% end %>
-        <div class="card-body"><%# カードをすべて同じ大きさにしたい！　%>
+<div class="row">
+  <% @posts.each do |post| %>
+    <div class="col-md-4">
+      <div class="card mt-4 shadow-lg">
+        <div>  
+          <%= link_to post_path(post.id) do %>
+            <%= image_tag post.image, class: "card-img-top" %>
+          <% end %>
+        </div>  
+        <div class="card-body">
           <div class="row">
             <div class="col-10">
-              <% post.tags.each do |tag| %>
-                <%= tag.name %>
-              <% end %>
-              <% if post.liked_by?(current_user) %>
-                    <p><%= link_to post_likes_path(post), method: :delete do %>
-                        <i class="fa-solid fa-sun"></i><%= post.likes.count %> いいね
-                     　 <% end %></p>
-              <% else %>
-                    <p><%= link_to post_likes_path(post), method: :post do %>
-                        <i class="fa-regular fa-sun"></i><%= post.likes.count %> いいね
-                      <% end %></p>
+              <p>From:<%= post.user.name %></p>
+              <p class="card-tag">
+                <% post.tags.each do |tag| %>
+                  ＃<%= tag.name %>
+                <% end %>
+                <% if post.user == current_user %>
+                  <%= link_to edit_post_path(post.id) do %>
+                    <i class="fa-solid fa-file-pen"></i>
+                  <% end %>
+                  <%= post.likes.count %> Like
+                <% else %>
+                  <% if post.liked_by?(current_user) %>
+                    <%= link_to post_likes_path(post.id), method: :delete do %>
+                      <i class="fa-solid fa-sun"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to post_likes_path(post.id), method: :post do %>
+                      <i class="fa-regular fa-sun"></i>
+                    <% end %>
                   <% end %>              
-              <% end %>  
-              <%= link_to post.created_at %>
-              <%= link_to(post_path(post.id), class: "text-dark") do %>
-                <strong><i class="fa-solid fa-circle-exclamation"></i><%# 通報機能追加 %></strong>
-              <% end %>                    
+                <% end %>
+              </p>
+              <p>Post Date:<%= post.created_at.strftime('%Y/%m/%d') %></p>
+              <div class="row">
+                <div class="col">Comment:<%= post.comments.count %></div>
+                <div class="col text-right">
+                  <% if post.user == current_user %>
+                    <%= link_to post_path(post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
+                      <i class="fa-solid fa-trash-can"></i>
+                    <% end %>
+                  <% else %>
+                    <% if post.reported_by?(current_user) %>
+                      <%= link_to post_reports_path(post.id), method: :delete, data: {confirm: "通報を取り消します"} do %>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                      <% end %>
+                    <% else %>
+                      <%= link_to post_reports_path(post.id), method: :post, data: {confirm: "この投稿を通報しますか？"} do %>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                      <% end %>
+                    <% end %>                     
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div>    
+  <% end %>
+</div>

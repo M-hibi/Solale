@@ -1,45 +1,11 @@
 <div class="container">
-<% if user_signed_in? %>  
-<h3>New Notifications</h3>
-<div class="row justify-content-center, border border-info" >
-  <%# 通知欄作成予定+サイズを一定にしたい %>
-</div><% else %><% end %>  
-<h3>みんなのSolale</h3>
-  <div class="row">
-    <% @posts.each do |post| %>
-      <div class="col-md-4">
-        <div class="grid gap-1">
-          <div class="card mt-4 shadow-lg h-100">
-            <%= link_to post_path(post.id) do %>
-              <%= image_tag post.image, class: "card-img-top"; %>
-            <% end %>
-            <div class="card-body"><%# カードをすべて同じ大きさにしたい！　%>
-              <div class="row">
-                <div class="col-10">
-                  <p class="card-tag">
-                  <% post.tags.each do |tag| %>
-                  <%= tag.name %>
-                  <% end %>  
-                  <% if post.liked_by?(current_user) %>
-                    <p><%= link_to post_likes_path(post), method: :delete do %>
-                        <i class="fa-solid fa-sun"></i><%= post.likes.count %> いいね
-                     　 <% end %></p>
-                  <% else %>
-                    <p><%= link_to post_likes_path(post), method: :post do %>
-                        <i class="fa-regular fa-sun"></i><%= post.likes.count %> いいね
-                      <% end %></p>
-                    <% end %>              
-                  </p>
-                  <%= link_to post.created_at %>
-                  <%= link_to(post_path(post.id), class: "text-dark") do %>
-                    <strong><i class="fa-solid fa-circle-exclamation"></i><%# 通報機能追加 %></strong>
-                  <% end %>                    
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>  
-      </div>    
-    <% end %>
-  </div>
+  <% if user_signed_in? %>  
+    <h3>New Notifications</h3>
+    <div class="row justify-content-center, border border-info" >
+      <%# 通知欄作成予定+サイズを一定にしたい %>
+    </div>
+  <% else %><%# 何も入れない %>
+  <% end %>
+  <h3>みんなのSolale</h3>
+  <%= render 'list', posts: @posts %>
 </div>

@@ -9,6 +9,12 @@
     <script src="https://kit.fontawesome.com/a7b34a3f51.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <style type="text/css">
+    .card-img-top {
+      height: 200px;
+      object-fit: contain;
+    }
+    </style>  
   </head>
 
   <body class="d-flex flex-column vh-100">
@@ -17,6 +23,14 @@
         <div class="container">
           <a class="navbar-brand p-1" href="/posts"><i class="fa-solid fa-sun"></i>
             Solale</a>
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+              <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
+              <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
+              <%= f.submit "検索", class: "search-btn" %>
+              <% end %>
+            </div>
+          </nav>            
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,14 +57,6 @@
             <% end %>
             </ul>
           </div>
-          <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-              <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
-              <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
-              <%= f.submit "検索", class: "search-btn" %>
-              <% end %>
-            </div>
-          </nav>
         </div>
       </nav>
     </header>
@@ -65,6 +71,9 @@
       </div>
     <%= yield %>
     </main>
+    <footer class="py-5">
+      <p class="text-center"><i class="fa-solid fa-sun"></i>Solale</p>
+    </footer>
   </body>
 </html>
 

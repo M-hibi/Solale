@@ -6,14 +6,12 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all
-    @tag_list = Tag.all    	
   end
   
   def show
     @post = Post.find(params[:id])
     @user = @post.user_id
     @comment = Comment.new
-    @tag_list = Tag.all    	
   end
   
   def create
@@ -38,7 +36,7 @@ class PostsController < ApplicationController
   def destroy
   	post = Post.find(params[:id])
   	post.destroy
-  	redirect_to posts_path, success: t('Solaleとさよならしました')
+    redirect_to request.referer, success: t('Solaleとさよならしました')
   end
 
   def update
