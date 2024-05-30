@@ -63,5 +63,31 @@
         </div>
       </div>
     <% end %>
-  </div>  
+  </div>
+  <div class="col-9">
+    <h3>あなたがいいねしたSolale</h3>
+  </div>
+    <div class="row">
+    <% @like_posts.each do |post| %>
+      <div class="col-md-4">
+        <div class="card mt-4 shadow-lg">
+          <div>  
+            <%= link_to post_path(post.id) do %>
+              <%= image_tag post.image, class: "card-img-top" %>
+            <% end %>
+          </div>  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-10">
+                <p class="card-tag">
+                  <% post.tags.each do |tag| %>
+                    ＃<%= tag.name %>
+                  <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

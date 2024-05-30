@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   	@posts = @user.posts
+    likes = Like.where(user_id: @user.id).pluck(:post_id)
+    @like_posts = Post.find(likes)
   end
   
   def edit
@@ -16,7 +18,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(@user.id),notice:"You edited user"
+      redirect_to user_path(@user.id),notice:"情報を更新しました"
     else
     render:edit
     end

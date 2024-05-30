@@ -12,10 +12,8 @@
     <div class=" mx-auto col-11 col-sm-10 col-lg-8 col-xl-6">    
     <h2>編集</h2>
     <%= form_with model:@post do |f| %>
-      <label for="inputName">名前</label><br>
-      <%= f.text_field :name, autofocus: true, id:"inputName" %><br>
-      <label for="inputIntroduction">自己紹介</label><br>
-      <%= f.text_field :introduction,  id:"inputIntroduction" %><br>
+      <label for="inputTag">タグを編集する</label><br>
+      <%= f.text_field :tag_names,  id:"inputTag" %><br>
       <%= f.submit "Edit completed" %>
     <% end %>
     </div>

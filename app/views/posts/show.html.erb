@@ -9,9 +9,9 @@
               <p>From:<%= @post.user.name %>
               　<% if @post.user != current_user %>
                   <% if current_user.following?(@post.user) %>
-                    <%= link_to "フォロー外す", user_follows_path(user.id), method: :delete, class: options[:class].presence || "btn btn-info" %>
+                    <%= link_to "フォロー外す", user_follows_path(@post.user.id), method: :delete, class: "btn btn-info" %>
                   <% else %>
-                    <%= link_to "フォローする", user_follows_path(user.id), method: :post, class: options[:class].presence || "btn btn-success" %>
+                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class:  "btn btn-success" %>
                   <% end %>
                 <% end %>
               </p>
