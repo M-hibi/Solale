@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   has_many :reports, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_one :notification, as: :subject, dependent: :destroy
 
   validates :image, presence: true
   

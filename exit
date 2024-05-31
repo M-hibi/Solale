@@ -1,0 +1,206 @@
+[1mdiff --git a/app/controllers/posts_controller.rb b/app/controllers/posts_controller.rb[m
+[1mindex d3fcb66..c2738a6 100644[m
+[1m--- a/app/controllers/posts_controller.rb[m
+[1m+++ b/app/controllers/posts_controller.rb[m
+[36m@@ -6,6 +6,10 @@[m [mclass PostsController < ApplicationController[m
+ [m
+   def index[m
+     @posts = Post.all[m
+[32m+[m[32m    @notifications = current_user.notifications.order(created_at: :desc)[m
+[32m+[m[32m    @notifications.where(checked: false).each do |notification|[m
+[32m+[m[32m    notification.update(checked: true)[m
+[32m+[m[32m    end[m
+   end[m
+   [m
+   def show[m
+[1mdiff --git a/app/helpers/notifications_helper.rb b/app/helpers/notifications_helper.rb[m
+[1mindex 7342393..6514c1b 100644[m
+[1m--- a/app/helpers/notifications_helper.rb[m
+[1m+++ b/app/helpers/notifications_helper.rb[m
+[36m@@ -1,2 +1,12 @@[m
+ module NotificationsHelper[m
+[32m+[m[32m  def transition_path(notification)[m
+[32m+[m[32m    case notification.action_type.to_sym[m
+[32m+[m[32m    when :commented_to_own_post[m
+[32m+[m[32m      post_path(notification.subject.post, anchor: "comment-#{notification.subject.id}")[m
+[32m+[m[32m    when :liked_to_own_post[m
+[32m+[m[32m      post_path(notification.subject.post)[m
+[32m+[m[32m    when :followed_me[m
+[32m+[m[32m      user_path(notification.subject.follower)[m
+[32m+[m[32m    end[m
+[32m+[m[32m  end[m[41m  [m
+ end[m
+[1mdiff --git a/app/models/comment.rb b/app/models/comment.rb[m
+[1mindex 7292f86..53f2fbc 100644[m
+[1m--- a/app/models/comment.rb[m
+[1m+++ b/app/models/comment.rb[m
+[36m@@ -2,4 +2,13 @@[m [mclass Comment < ApplicationRecord[m
+   belongs_to :user[m
+   belongs_to :post  [m
+ [m
+[32m+[m
+[32m+[m[32m  has_one :notification, as: :subject, dependent: :destroy[m
+[32m+[m
+[32m+[m[32m  after_create_commit :create_notifications[m
+[32m+[m
+[32m+[m[32m  private[m
+[32m+[m[32m  def create_notifications[m
+[32m+[m[32m    Notification.create(subject: self, user: post.user, action_type: :commented_to_own_post)[m
+[32m+[m[32m  end[m
+ end[m
+[1mdiff --git a/app/models/follow.rb b/app/models/follow.rb[m
+[1mindex 573cd48..c5e1d46 100644[m
+[1m--- a/app/models/follow.rb[m
+[1m+++ b/app/models/follow.rb[m
+[36m@@ -2,4 +2,12 @@[m [mclass Follow < ApplicationRecord[m
+   belongs_to :follower, class_name: "User"[m
+   belongs_to :followed, class_name: "User"[m
+ [m
+[32m+[m[32m  has_one :notification, as: :subject, dependent: :destroy[m
+[32m+[m
+[32m+[m[32m  after_create_commit :create_notifications[m
+[32m+[m
+[32m+[m[32m  private[m
+[32m+[m[32m  def create_notifications[m
+[32m+[m[32m    Notification.create(subject: self, user: followed, action_type: :followed_me)[m
+[32m+[m[32m  end[m
+ end[m
+[1mdiff --git a/app/models/like.rb b/app/models/like.rb[m
+[1mindex 9090f97..a42d179 100644[m
+[1m--- a/app/models/like.rb[m
+[1m+++ b/app/models/like.rb[m
+[36m@@ -1,6 +1,14 @@[m
+ class Like < ApplicationRecord[m
+   belongs_to :user[m
+[31m-  belongs_to :post  [m
+[31m-    [m
+[32m+[m[32m  belongs_to :post[m
+   validates :user_id, uniqueness: {scope: :post_id}[m
+[32m+[m[41m  [m
+[32m+[m[32m  has_one :notification, as: :subject, dependent: :destroy[m
+[32m+[m
+[32m+[m[32m  after_create_commit :create_notifications[m
+[32m+[m
+[32m+[m[32m  private[m
+[32m+[m[32m  def create_notifications[m
+[32m+[m[32m    Notification.create(subject: self, user: self.post.user, action_type: :liked_to_own_post)[m
+[32m+[m[32m  end[m
+ end[m
+[1mdiff --git a/app/models/post.rb b/app/models/post.rb[m
+[1mindex d2edfc0..1fb7575 100644[m
+[1m--- a/app/models/post.rb[m
+[1m+++ b/app/models/post.rb[m
+[36m@@ -6,6 +6,7 @@[m [mclass Post < ApplicationRecord[m
+   has_many :tags, through: :post_tags[m
+   has_many :reports, dependent: :destroy[m
+   has_many :comments, dependent: :destroy[m
+[32m+[m[32m  has_one :notification, as: :subject, dependent: :destroy[m
+ [m
+   validates :image, presence: true[m
+   [m
+[1mdiff --git a/app/models/user.rb b/app/models/user.rb[m
+[1mindex 5ca379e..0df9ee7 100644[m
+[1m--- a/app/models/user.rb[m
+[1m+++ b/app/models/user.rb[m
+[36m@@ -12,6 +12,8 @@[m [mclass User < ApplicationRecord[m
+   has_many :likes, dependent: :destroy[m
+   has_many :posts, dependent: :destroy[m
+   has_many :reports, dependent: :destroy[m
+[32m+[m[32m  has_many :notifications, dependent: :destroy[m
+[32m+[m[41m  [m
+ [m
+   GUEST_USER_EMAIL = "guest@example.com"[m
+ [m
+[1mdiff --git a/app/views/posts/index.html.erb b/app/views/posts/index.html.erb[m
+[1mindex 2553fbd..0467932 100644[m
+[1m--- a/app/views/posts/index.html.erb[m
+[1m+++ b/app/views/posts/index.html.erb[m
+[36m@@ -1,9 +1,16 @@[m
+ <div class="container">[m
+[31m-  <% if user_signed_in? %>  [m
+[31m-    <h3>New Notifications</h3>[m
+[32m+[m[32m  <% if user_signed_in? %>[m
+[32m+[m[32m    <% if @notifications.present? %>[m
+[32m+[m[32m      <h3>通知一覧</h3>[m
+[32m+[m[32m      <%= link_to "削除",notification_path(@notifications), method: :delete,class:"btn btn-light" %>[m
+[32m+[m[32m      <% @notifications.each do |notification| %>[m
+[32m+[m[32m          <%= render "#{notification.action_type}", notification: notification %>[m
+[32m+[m[32m      <% end %>[m
+[32m+[m[32m    <% else %>[m
+     <div class="row justify-content-center, border border-info" >[m
+       <p>通知はありません</p>[m
+     </div>[m
+[32m+[m[32m    <% end %>[m
+   <% else %><%# 何も入れない %>[m
+   <% end %>[m
+   <h3>みんなのSolale</h3>[m
+[1mdiff --git a/app/views/posts/show.html.erb b/app/views/posts/show.html.erb[m
+[1mindex 77e367f..60f9069 100644[m
+[1m--- a/app/views/posts/show.html.erb[m
+[1m+++ b/app/views/posts/show.html.erb[m
+[36m@@ -11,7 +11,7 @@[m
+                   <% if current_user.following?(@post.user) %>[m
+                     <%= link_to "フォロー外す", user_follows_path(@post.user.id), method: :delete, class: "btn btn-info" %>[m
+                   <% else %>[m
+[31m-                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class:  "btn btn-success" %>[m
+[32m+[m[32m                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class: "btn btn-success" %>[m
+                   <% end %>[m
+                 <% end %>[m
+               </p>[m
+[1mdiff --git a/config/routes.rb b/config/routes.rb[m
+[1mindex 196aca1..dd9b1f2 100644[m
+[1m--- a/config/routes.rb[m
+[1m+++ b/config/routes.rb[m
+[36m@@ -17,7 +17,10 @@[m [mRails.application.routes.draw do[m
+   end[m
+   get "search", to: 'posts#search', as: 'posts_search'[m
+ [m
+[32m+[m[32m  resources :notifications, only: [:index, :destroy][m
+[32m+[m
+   devise_scope :user do[m
+     post "users/guest_sign_in", to: "users/sessions#guest_sign_in"[m
+   end[m
+[32m+[m[41m  [m
+ end[m
+[1mdiff --git a/db/schema.rb b/db/schema.rb[m
+[1mindex 62f3107..f0e27c6 100644[m
+[1m--- a/db/schema.rb[m
+[1m+++ b/db/schema.rb[m
+[36m@@ -10,7 +10,7 @@[m
+ #[m
+ # It's strongly recommended that you check this file into your version control system.[m
+ [m
+[31m-ActiveRecord::Schema.define(version: 2024_05_20_220334) do[m
+[32m+[m[32mActiveRecord::Schema.define(version: 2024_05_30_213253) do[m
+ [m
+   create_table "active_storage_attachments", force: :cascade do |t|[m
+     t.string "name", null: false[m
+[36m@@ -62,6 +62,20 @@[m [mActiveRecord::Schema.define(version: 2024_05_20_220334) do[m
+     t.datetime "updated_at", precision: 6, null: false[m
+   end[m
+ [m
+[32m+[m[32m  create_table "notifications", force: :cascade do |t|[m
+[32m+[m[32m    t.string "subject_type"[m
+[32m+[m[32m    t.integer "subject_id"[m
+[32m+[m[32m    t.integer "user_id"[m
+[32m+[m[32m    t.integer "action_type", null: false[m
+[32m+[m[32m    t.boolean "checked", default: false, null: false[m
+[32m+[m[32m    t.integer "visitor_id"[m
+[32m+[m[32m    t.integer "visited_id"[m
+[32m+[m[32m    t.datetime "created_at", precision: 6, null: false[m
+[32m+[m[32m    t.datetime "updated_at", precision: 6, null: false[m
+[32m+[m[32m    t.index ["subject_type", "subject_id"], name: "index_notifications_on_subject"[m
+[32m+[m[32m    t.index ["user_id"], name: "index_notifications_on_user_id"[m
+[32m+[m[32m  end[m
+[32m+[m
+   create_table "post_tags", force: :cascade do |t|[m
+     t.integer "post_id"[m
+     t.integer "tag_id"[m
+[36m@@ -110,6 +124,7 @@[m [mActiveRecord::Schema.define(version: 2024_05_20_220334) do[m
+ [m
+   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"[m
+   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"[m
+[32m+[m[32m  add_foreign_key "notifications", "users"[m
+   add_foreign_key "post_tags", "posts"[m
+   add_foreign_key "post_tags", "tags"[m
+ end[m

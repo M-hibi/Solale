@@ -6,6 +6,10 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all
+    @notifications = current_user.notifications.order(created_at: :desc)
+    @notifications.where(checked: false).each do |notification|
+    notification.update(checked: true)
+    end
   end
   
   def show

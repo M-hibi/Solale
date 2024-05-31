@@ -11,7 +11,7 @@
                   <% if current_user.following?(@post.user) %>
                     <%= link_to "フォロー外す", user_follows_path(@post.user.id), method: :delete, class: "btn btn-info" %>
                   <% else %>
-                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class:  "btn btn-success" %>
+                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class: "btn btn-success" %>
                   <% end %>
                 <% end %>
               </p>

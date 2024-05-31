@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :reports, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   GUEST_USER_EMAIL = "guest@example.com"
 
