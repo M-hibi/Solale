@@ -1,0 +1,41 @@
+<div class="container-fluid my-5 bgsky">
+  <div class="row">
+    <div class="col-10 mx-auto">
+      <h2>Solaleとは?</h2>
+      <p>空を見上げて、写真を撮って、あげるだけ。</p>
+      <p>同じ世界で、同じように空を見上げている人を見つけるSNS</p>
+      <p>深いつながりはできないので、Solare（太陽）にはなれませんが</p>
+      <p>自分の心とつながる時間になってほしい</p>
+      <br>
+      <h2>How to use</h2>
+      <h3>誰かのSolaleを見る</h3>
+      <p>検索機能でSolaleにつけられたタグを調べることができます</p>
+      <p>会員登録をすれば、素敵なSolaleをマイページに保存することができます<i class="fa-solid fa-sun"></i></p>
+      <p>ユーザーをフォローすれば、その人のSolale一覧を見ることができます</p>
+      <p>50文字以内でSolaleにコメントすることができます（返信は期待しないでください）</p>
+      <p>ふさわしくない投稿は、通報ボタンで運営にお知らせください</p>
+      <h3>あなたがSolaleをあげる</h3>
+      <p>会員登録をすれば、Solaleを投稿することができます</p>
+      <p>タグをつけたらもっとたくさんの人の目に止まります</p>
+      <p>すると誰かがあなたのSolaleを賞賛し、メッセージをくれるかもしれません</p>
+      <br>
+      
+      <div class="btn-wrapper col-10 mx-auto">
+        <div class="row justify-content-center">
+          <div class="col-4 p-2">
+            <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-info btn-lg btn-block sign_in", method: :post %>
+          </div>
+          <div class="col-4 p-2">
+            <%= link_to "ログイン",new_user_session_path, class: "btn btn-info btn-lg btn-block sign_in" %>
+          </div>
+          <div class="col-4 p-2">
+            <%= link_to "新規登録",new_user_registration_path, class: "btn btn-info btn-lg mb-3 btn-block sign_up" %>
+          </div>
+        </div>
+        <div class="row p-2">
+          <%= link_to "登録せずにSolaleを覗いてみる",posts_path, class: "btn btn-primary btn-lg btn-block sign_up" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

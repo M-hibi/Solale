@@ -1,0 +1,94 @@
+<div class="container d-flex justify-content-center">
+  <div class="col-8">
+    <div class="grid gap-1">
+      <div class="card mt-4 shadow-lg">
+        <%= image_tag @post.image, class: "card-img-top"; %>
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <p>From:<%= @post.user.name %>
+              　<% if @post.user != current_user %>
+                  <% if current_user.following?(@post.user) %>
+                    <%= link_to "フォロー外す", user_follows_path(@post.user.id), method: :delete, class: "btn btn-info" %>
+                  <% else %>
+                    <%= link_to "フォローする", user_follows_path(@post.user.id), method: :post, class: "btn btn-success" %>
+                  <% end %>
+                <% end %>
+              </p>
+            </div>  
+          </div>
+          <div class="row  justify-content-center">
+            <div class="col-10">
+              <p class="card-tag">
+              <% @post.tags.each do |tag| %>
+              ＃<%= tag.name %>
+              <% end %>
+              <% if @post.user == current_user %>
+                <%= link_to edit_post_path(@post.id) do%>
+                  <strong><i class="fa-solid fa-file-pen"></i></strong>
+                <% end %><%= @post.likes.count %> Like
+              <% else %>
+                <% if @post.liked_by?(current_user) %>
+                  <%= link_to post_likes_path(@post), method: :delete do %>
+                      <i class="fa-solid fa-sun"></i>
+                   　 <% end %>
+                <% else %>
+                  <%= link_to post_likes_path(@post), method: :post do %>
+                      <i class="fa-regular fa-sun"></i>
+                    <% end %>
+                <% end %>              
+              <% end %>
+              </p>
+              <div class="row justify-content-center">
+                <div class="col">Post Date:<%= @post.created_at.strftime('%Y/%m/%d') %></div>
+                <div class="col-2 text_right">
+                  <% if @post.user == current_user %>
+                    <%= link_to post_path(@post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
+                    <strong><i class="fa-solid fa-trash-can"></i></strong>
+                    <% end %>
+                  <% else %>
+                    <% if @post.reported_by?(current_user) %>
+                    <%= link_to post_reports_path(@post), method: :delete, data: {confirm: "通報を取り消します"} do %>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                     　 <% end %>
+                    <% else %>
+                    <%= link_to post_reports_path(@post), method: :post, data: {confirm: "この投稿を通報しますか？"} do %>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+      <div>
+        <% if @error_comment.present? %>
+          <div id="error_explanation">
+            <p><%= コメントに失敗したようです。</p>
+            <ul>
+              <% @error_comment.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <p>コメント件数：<%= @post.comments.count %></p>
+        <% @post.comments.each do |com| %>
+          <%= com.user.name %>
+          <%= com.created_at.strftime('%Y/%m/%d') %><%= com.comment %>
+          <% if com.user == current_user %>
+            <%= link_to "削除", post_comment_path(com.id), method: :delete %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        <%= form_with model: [@post, @comment] do |f| %>
+          <%= f.text_area :comment, rows: '1', placeholder: "コメント" %>
+          <%= f.submit "送信" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

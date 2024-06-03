@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -16,27 +14,27 @@ class User < ApplicationRecord
 
   GUEST_USER_EMAIL = "guest@example.com"
 
-    def self.guest
-      find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
-        user.password = SecureRandom.urlsafe_base64
-        user.name = "guestuser"
-      end
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.name = "guestuser"
     end
+  end
 
-    def active_for_authentication?
-      super && (self.is_active == false)
-    end
+  def active_for_authentication?
+    super && (self.is_active == false)
+  end
 
-    def follow(user)
-      active_follows.create(followed_id: user.id)
-    end
+  def follow(user)
+    active_follows.create(followed_id: user.id)
+  end
 
-    def unfollow(user)
-      active_follows.find_by(followed_id: user.id).destroy
-    end
+  def unfollow(user)
+    active_follows.find_by(followed_id: user.id).destroy
+  end
 
-    def following?(user)
-      followings.include?(user)
-    end
+  def following?(user)
+    followings.include?(user)
+  end
 
 end
