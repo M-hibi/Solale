@@ -16,9 +16,9 @@
         </tr> 
         <tr>
       	  <th>フォロー</th>
-      	  <th><%= @user.introduction %></th>
+  	      <th><%= link_to @user.followings.count, user_followings_path(@user.id) %></th>
       	  <th>フォロワー</th>
-      	  <th><%= @user.introduction %></th>
+  	      <th><%= link_to @user.followers.count, user_followers_path(@user.id) %></th>
         </tr>         
       </tbody></table>
     </div>
@@ -80,6 +80,7 @@
             <div class="row">
               <div class="col-10">
                 <p class="card-tag">
+                  From:<%= post.user.name %>
                   <% post.tags.each do |tag| %>
                     ＃<%= tag.name %>
                   <% end %>

@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style type="text/css">
+      body,
+      html {
+        height: 100%;
+        background: /*画像が出ない*/image-url(images/bg.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+
+
 <div class="container-fluid my-5 bgsky">
   <div class="row">
     <div class="col-10 mx-auto">
@@ -9,31 +25,64 @@
       <br>
       <h2>How to use</h2>
       <h3>誰かのSolaleを見る</h3>
-      <p>検索機能でSolaleにつけられたタグを調べることができます</p>
+      <p>検索機能でSolaleにつけられたタグを調べることができます<i class="fa-solid fa-magnifying-glass"></i></p>
       <p>会員登録をすれば、素敵なSolaleをマイページに保存することができます<i class="fa-solid fa-sun"></i></p>
-      <p>ユーザーをフォローすれば、その人のSolale一覧を見ることができます</p>
+      <p>ユーザーをフォローすれば、その人のSolale一覧を見ることができます。</p>
       <p>50文字以内でSolaleにコメントすることができます（返信は期待しないでください）</p>
-      <p>ふさわしくない投稿は、通報ボタンで運営にお知らせください</p>
+      <p>ふさわしくない投稿は、通報ボタンで運営にお知らせください<i class="fa-solid fa-circle-exclamation"></i></p>
       <h3>あなたがSolaleをあげる</h3>
       <p>会員登録をすれば、Solaleを投稿することができます</p>
       <p>タグをつけたらもっとたくさんの人の目に止まります</p>
       <p>すると誰かがあなたのSolaleを賞賛し、メッセージをくれるかもしれません</p>
       <br>
-      
-      <div class="btn-wrapper col-10 mx-auto">
-        <div class="row justify-content-center">
-          <div class="col-4 p-2">
-            <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-info btn-lg btn-block sign_in", method: :post %>
-          </div>
-          <div class="col-4 p-2">
-            <%= link_to "ログイン",new_user_session_path, class: "btn btn-info btn-lg btn-block sign_in" %>
-          </div>
-          <div class="col-4 p-2">
-            <%= link_to "新規登録",new_user_registration_path, class: "btn btn-info btn-lg mb-3 btn-block sign_up" %>
-          </div>
+    </div>
+
+    <div class="btn-wrapper col-10 mx-auto">
+      <div class="row justify-content-center">
+        <div class="col-4 p-2">
+          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-light btn-lg btn-block sign_in", method: :post %>
         </div>
-        <div class="row p-2">
-          <%= link_to "登録せずにSolaleを覗いてみる",posts_path, class: "btn btn-primary btn-lg btn-block sign_up" %>
+        <div class="col-4 p-2">
+          <%= link_to "ログイン",new_user_session_path, class: "btn btn-light btn-lg btn-block sign_in" %>
+        </div>
+        <div class="col-4 p-2">
+          <%= link_to "新規登録",new_user_registration_path, class: "btn btn-light btn-lg mb-3 btn-block sign_up" %>
+        </div>
+      </div>
+      <div class="accordion" id="accordion-4">
+        <div class="card">
+          <div class="card-header" id="header-4a">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#card-4a" aria-expanded="true" aria-controls="card-4a">
+              登録せずにSolaleを覗いてみる
+            </button>
+          </div>
+          <div id="card-4a" class="collapse" aria-labelledby="header-4a" data-parent="#accordion-4">
+            <div class="card-body">
+              <div class="row">
+                <% @newposts.each do |newpost| %>
+                  <div class="col-md-4">
+                    <div class="card mt-4 shadow-lg">
+                      <div>
+                        <%= image_tag newpost.image, class: "card-img-top" %>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-10">
+                            <p>From:<%= newpost.user.name %></p>
+                            <p class="card-tag">
+                              <% newpost.tags.each do |tag| %>
+                                ＃<%= tag.name %>
+                              <% end %>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

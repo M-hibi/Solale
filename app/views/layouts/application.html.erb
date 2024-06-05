@@ -30,7 +30,7 @@
             <div class="container-fluid">
               <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
               <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
-              <%= f.submit "検索", class: "search-btn" %>
+              <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
               <% end %>
             </div>
           </nav>            
@@ -48,7 +48,7 @@
               <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
             </li>
             <li class="nav-item">
-              <%= link_to 'あなたのページ', user_path(current_user.id), class: 'nav-link text-dark' %>
+              <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-dark' %>
             </li>
             <% else %>
             <li class="nav-item">
