@@ -1,5 +1,7 @@
 class Public::UsersController < ApplicationController
   before_action :is_matching_login_user, only: [:edit, :update]
+  before_action :set_user, only: [:followings]
+
 
   def show
     @user = User.find(params[:id])
@@ -24,6 +26,11 @@ class Public::UsersController < ApplicationController
     end
   end
   
+  def followings
+    @users = @user.followings
+  end
+
+  
   def confirm
   end
 
@@ -40,6 +47,9 @@ class Public::UsersController < ApplicationController
     params.require(:user).permit(:name, :introduction)
   end
   
+  def set_user
+    @user = User.find(params[:id])
+  end
   
   def is_matching_login_user
     user = User.find(params[:id])

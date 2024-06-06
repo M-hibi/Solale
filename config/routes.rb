@@ -11,7 +11,13 @@ Rails.application.routes.draw do
   scope module: :public do
     devise_for :users
     root to: "homes#top"
-  
+    
+    resources :users do
+      member do
+      get :followings, :followers
+      end
+    end
+
     resources :users, only: [:show, :edit, :update] do
       get   '/users/:id/confirm',  to: 'users#confirm', as: 'users_confirm'
       patch  '/users/:id/withdraw', to: 'users#withdraw', as: 'users_withdraw'

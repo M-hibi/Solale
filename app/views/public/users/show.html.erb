@@ -1,41 +1,49 @@
 <div class="container">
   <div class="row">
     <div class="col-9">
-      <div class="d-flex justify-content-between">  
+      <div class="d-flex justify-content-between">
+      <% if @user == current_user %>
         <h3>あなたのページ
         <%= link_to edit_user_path(@user.id) do%>
         <i class="fa-solid fa-file-pen"></i>
         <% end %></h3>
-      </div>  
+      <% else %>
+        <h3>ユーザーのページ</h3>
+      <% end %>
+      </div>
       <table class="table"><tbody>
         <tr>
       	  <th>名前</th>
       	  <th><%= @user.name %></th>
       	  <th>自己紹介</th>
       	  <th><%= @user.introduction %></th>
-        </tr> 
+        </tr>
         <tr>
-      	  <th>フォロー</th>
-  	      <th><%= link_to @user.followings.count, user_followings_path(@user.id) %></th>
-      	  <th>フォロワー</th>
-  	      <th><%= link_to @user.followers.count, user_followers_path(@user.id) %></th>
-        </tr>         
+      	  <th>フォロー(きにかけている人)</th>
+	        <% if @user == current_user %>
+  	      <th><%= link_to @user.followings.count, followings_user_path(@user.id) %></th>
+  	      <% else %>
+  	      <th><%=  @user.followings.count %></th>
+  	      <% end %>
+      	  <th>フォロワー(そばにいる人)</th>
+  	      <th><%=  @user.followers.count %></th>
+        </tr>
       </tbody></table>
     </div>
   </div>
-  
+
   <div class="col-9">
-    <h3>あなたのSolale</h3>
+    <h3>Solale一覧</h3>
   </div>
   <div class="row">
     <% @posts.each do |post| %>
       <div class="col-md-4">
         <div class="card mt-4 shadow-lg">
-          <div>  
+          <div>
             <%= link_to post_path(post.id) do %>
               <%= image_tag post.image, class: "card-img-top" %>
             <% end %>
-          </div>  
+          </div>
           <div class="card-body">
             <div class="row">
               <div class="col-10">
@@ -43,20 +51,23 @@
                   <% post.tags.each do |tag| %>
                     ＃<%= tag.name %>
                   <% end %>
+                  <% if @user == current_user %>
                   <%= link_to edit_post_path(post.id) do %>
                     <i class="fa-solid fa-file-pen"></i>
                   <% end %>
                   <%= post.likes.count %> Like
-                </p>
+                </p><% end %>
                 <p>Post Date:<%= post.created_at.strftime('%Y/%m/%d') %></p>
                 <div class="row">
                   <div class="col">Comment:<%= post.comments.count %></div>
                   <div class="col text-right">
+                    <% if @user == current_user %>
                     <%= link_to post_path(post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
                       <i class="fa-solid fa-trash-can"></i>
                     <% end %>
+                    <% end %>
                   </div>
-                </div>  
+                </div>
               </div>
             </div>
           </div>
@@ -65,17 +76,17 @@
     <% end %>
   </div>
   <div class="col-9">
-    <h3>あなたがいいねしたSolale</h3>
+    <h3>いいねしたSolale</h3>
   </div>
     <div class="row">
     <% @like_posts.each do |post| %>
       <div class="col-md-4">
         <div class="card mt-4 shadow-lg">
-          <div>  
+          <div>
             <%= link_to post_path(post.id) do %>
               <%= image_tag post.image, class: "card-img-top" %>
             <% end %>
-          </div>  
+          </div>
           <div class="card-body">
             <div class="row">
               <div class="col-10">

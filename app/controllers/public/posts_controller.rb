@@ -5,7 +5,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
     @notifications = current_user.notifications.order(created_at: :desc)
     @notifications.where(checked: false).each do |notification|
     notification.update(checked: true)
