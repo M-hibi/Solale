@@ -1,26 +1,62 @@
 <%= stylesheet_link_tag 'home', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-<div class="container-fluid my-5 home__top-bgsky">
+<div class="container-fluid home__top-bgsky">
   <div class="row">
-    <div class="col-10 mx-auto">
-      <h2>Solaleとは?</h2>
-      <p>空を見上げて、写真を撮って、あげるだけ。</p>
-      <p>同じ世界で、同じように空を見上げている人を見つけるSNS</p>
-      <p>深いつながりはできないので、Solare（太陽）にはなれませんが</p>
-      <p>自分の心とつながる時間になってほしい</p>
+    <div class="col-10 mx-auto py-5">
+      <div class="what-is-solale px-5 grid gap-3">
+        <h2>Solaleとは?</h2>
+        <p>空を見上げて、写真を撮って、あげるだけ。</p>
+        <p>同じ世界で、同じように空を見上げている人を見つけるSNS</p>
+        <p>深いつながりはできないので、Solare（太陽）にはなれませんが</p>
+        <p>自分の心とつながる時間になってほしい</p>
+      </div>
       <br>
-      <h2>How to use</h2>
-      <h3>誰かのSolaleを見る</h3>
-      <p>検索機能でSolaleにつけられたタグを調べることができます<i class="fa-solid fa-magnifying-glass"></i></p>
-      <p>会員登録をすれば、素敵なSolaleをマイページに保存することができます<i class="fa-solid fa-sun"></i></p>
-      <p>ユーザーをフォローすれば、その人のSolale一覧を見ることができます。</p>
-      <p>50文字以内でSolaleにコメントすることができます（返信は期待しないでください）</p>
-      <p>ふさわしくない投稿は、通報ボタンで運営にお知らせください<i class="fa-solid fa-circle-exclamation"></i></p>
-      <h3>あなたがSolaleをあげる</h3>
-      <p>会員登録をすれば、Solaleを投稿することができます</p>
-      <p>タグをつけたらもっとたくさんの人の目に止まります</p>
-      <p>すると誰かがあなたのSolaleを賞賛し、メッセージをくれるかもしれません</p>
-      <br>
+
+      <div>
+        <h2 class="">How to use</h2>
+        <div class="what-is-solale px-5 grid gap-5 rounded">
+          <h3>誰かのSolaleを見る</h3>
+          <div class="row justify-content-center">
+            <div class = "col-md-5 how-to-use">
+              <div>検索機能でSolaleにつけられたタグを調べることができます</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('search.png') %>">
+            </div>
+            <div class = "col-md-5 how-to-use">
+              <div>会員登録をすれば、素敵なSolaleをマイページに保存することができます</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('like.png') %>">
+            </div>
+            <div class = "col-md-5 how-to-use">
+              <div>ユーザーをフォローすれば、その人のSolale一覧を見ることができます</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('follow.png') %>">
+            </div>
+            <div class = "col-md-5 how-to-use">
+              <div>50文字以内でSolaleにコメントすることができます（返信は期待しないでください）</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('comment.png') %>">
+            </div>
+            <div class = "col-md-5 how-to-use">
+              <div>ふさわしくない投稿は、通報ボタンで運営にお知らせください</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('report.png') %>">
+            </div>
+          </div>
+        </div>
+        <div class="post-solale inline-block px-5 what-is-solale grid gap-5 rounded">
+          <h3>あなたがSolaleをあげる</h3>
+          <div class="row justify-content-center">
+            <div class = "col-md-5 how-to-use">
+              <div>会員登録をすれば、Solaleを投稿することができます</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('post.png') %>">
+              </div>
+            <div class = "col-md-5 how-to-use">
+              <div>タグをつけたらもっとたくさんの人の目に止まります</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('tag.png') %>">
+            </div>
+            <div class = "col-md-5 how-to-use">
+              <div>すると誰かがあなたのSolaleを賞賛し、メッセージをくれるかもしれません</div>
+              <img class = "how-to-use-image img-fluid mx-auto d-block" src = "<%= asset_path('reaction.png') %>">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="btn-wrapper col-10 mx-auto">
@@ -35,10 +71,10 @@
           <%= link_to "新規登録",new_user_registration_path, class: "btn btn-light btn-lg mb-3 btn-block sign_up" %>
         </div>
       </div>
-      <div class="accordion" id="accordion-4">
+      <div class="accordion mb-5" id="accordion-4">
         <div class="card">
           <div class="card-header" id="header-4a">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#card-4a" aria-expanded="true" aria-controls="card-4a">
+            <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#card-4a" aria-expanded="true" aria-controls="card-4a">
               登録せずにSolaleを覗いてみる
             </button>
           </div>
@@ -66,6 +102,9 @@
                     </div>
                   </div>
                 <% end %>
+              </div>
+              <div class="row m-5 justify-content-end">
+                <p>あなたもSolaleを投稿して、目の前の景色を誰かと共有しましょう</p>
               </div>
             </div>
           </div>
