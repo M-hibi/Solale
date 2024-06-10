@@ -1,3 +1,15 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.hidden {
+  display: none;
+}
+
+.shadow-lg{
+  box-shadow: 5px 5px 20px 15px rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+} 
+
+.no-result{
+  height: 100vh;
+}

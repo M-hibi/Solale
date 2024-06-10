@@ -5,7 +5,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts = Post.page(params[:page]).order(created_at: :desc)
     @notifications = current_user.notifications.order(created_at: :desc)
     @notifications.where(checked: false).each do |notification|
     notification.update(checked: true)
@@ -53,7 +53,7 @@ class Public::PostsController < ApplicationController
 
   def search 
       @tag = params[:tag]
-      @posts = Post.joins(:tags).where('name LIKE ?',"#{@tag}")
+      @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}")
   end
 
 
