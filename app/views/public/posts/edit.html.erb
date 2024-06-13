@@ -1,21 +1,23 @@
-<% if @post.errors.any? %>
-<%= @post.errors.count %>件のエラーが発生しました:
-<ul>
-  <% @post.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-</ul>
-<% end %>
+<%= stylesheet_link_tag 'posts', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-<div class="container">
-  <div class="row">
-    <div class=" mx-auto col-11 col-sm-10 col-lg-8 col-xl-6">    
-    <h2>編集</h2>
-    <%= form_with model:@post do |f| %>
-      <label for="inputTag">タグを編集する</label><br>
-      <%= f.text_field :tag_names,  id:"inputTag" %><br>
-      <%= f.submit "Edit completed" %>
-    <% end %>
+<div class="container back_ground">
+  <div class="row no-gutters">
+    <div class="col-8 mx-3 mx-sm-auto shadow-lg rounded my-5">
+    <h5 class="text-dark bg-light p-4 mb-0">Solaleにつけたタグを編集する</h5>
+      <div class="form-body p-4 bg-light">
+        <% if @post.errors.any? %>
+          <ul class="alert alert-danger" role="alert">
+          <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+          </ul>
+        <% end %>
+
+        <%= form_with model:@post do |f| %>
+          <%= f.text_field :tag_names, value: @tag_list, id:"inputTag",  size: 50 %><br><br>
+          <%= f.submit value="Solaleを修正する" %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>  
+</div>

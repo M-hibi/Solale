@@ -1,9 +1,9 @@
 <%= stylesheet_link_tag 'posts', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 
-<div class="container p-3">
+<div class="container p-3 back_ground">
   <% if @posts.count == 0 %>
-    <h3 class="no-result m-5 text-center ">検索結果がありません<i class="fa-solid fa-cloud-bolt"></i></h3>
+    <h3 class="m-5 text-center">検索結果がありません<i class="fa-solid fa-cloud-bolt"></i></h3>
   <% else %>
     <div class="row mt-3">
      <p>検索ワード：「<%= @tag %>」 検索結果：<%= @posts.count %> 件</p>
