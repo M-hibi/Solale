@@ -2,12 +2,44 @@
   <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %>
 </div>
 
-<h1>全ユーザー一覧</h1>
+<h1>通報一覧</h1>
 <ul>
-  <% @users.each do |user| %>
+  <li>
+    <div class="row">
+      <% @report_posts.each do |post| %>
+        <div class="col-md-4">
+          <div class="card mt-4 shadow-lg">
+            <div>
+              <%= image_tag post.image, class: "card-img-top" %>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-10">
+                  <p class="card-tag">
+                    From:<%= post.user.name %>
+                    <% post.tags.each do |tag| %>
+                      ＃<%= tag.name %>
+                    <% end %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </li>
+  <li>
+    <%= link_to '削除不要', post_reports_path(@post), method: :delete, data: { confirm: '通報状態をリセットします。' } %>
+    <%= link_to '削除',  post_path(@post.id), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+  </li>
+</ul>
+
+<h1>被リポートユーザー</h1>
+<ul>
+  <% @report_users.each do |user| %>
     <li>
       <%= user.name %> - <%= user.email %>
-      <%= link_to '削除', admin_user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' } %> 
+      <%= link_to '削除', admin_path(user), method: :delete, data: { confirm: '本当に削除しますか？' } %>
     </li>
   <% end %>
 </ul>
