@@ -80,7 +80,7 @@
           <%= com.created_at.strftime('%Y/%m/%d') %><%= com.comment %>
           <% if com.user == current_user %>
             <%= link_to "削除", post_comment_path(com.id), method: :delete %>
-          <% end %>
+          <% end %><br>
         <% end %>
       </div>
       <div>

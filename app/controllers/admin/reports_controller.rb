@@ -1,12 +1,19 @@
 class Admin::ReportsController < ApplicationController
     def index
-    @reports = Report.all
-        
-        reports = Report.where(user_id: @user.id).pluck(:post_id)
-        @report_users = User.find(reports)
-    
-        @user = User.find(params[:id])
-      	@posts = @user.posts
-        @report_posts = Post.find(reports)
+        @reports = Report.all
+        @posts = Post.where(is_active: true)
+    end
+
+    def update
+        @report = Report.find(params[:id])
+        @report.post.update(is_active: true)
+        @report.destroy
+        redirect_to request.referer, notice: "投稿を非表示にしました"
+    end
+
+    def destroy
+        @report = Report.find(params[:id])
+        @report.destroy
+        redirect_to request.referer, notice: "通報を取り消しました"
     end
 end

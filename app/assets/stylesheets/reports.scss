@@ -1,3 +1,19 @@
-// Place all the styles related to the reports controller here.
+// Place all the styles related to the admin/reports controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+main{
+  background-color: #e3f2fd !important;
+}
+
+footer{
+  background-color: #e3f2fd !important;
+}
+
+.admin_report_index{
+  padding: 50px;
+}
+
+.card-img-top{
+  min-height: 200px;
+}

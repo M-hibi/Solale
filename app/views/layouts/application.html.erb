@@ -15,10 +15,10 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <style type="text/css">
     .card-img-top {
-      height: 200px;
+      min-height: 400px;
       object-fit: contain;
     }
-    </style>  
+    </style>
   </head>
 
   <body class="d-flex flex-column vh-100">
@@ -29,12 +29,12 @@
           <a class="navbar-brand p-1" href="/posts"><i class="fa-solid fa-sun"></i>Solale</a>
         <% else %>
          <div class="container">
-          <a class="navbar-brand p-1" href="/"><i class="fa-solid fa-sun"></i>Solale</a>       
+          <a class="navbar-brand p-1" href="/"><i class="fa-solid fa-sun"></i>Solale</a>
         <% end %>
-        
+
           <% if user_signed_in? %>
             <nav class="navbar bg-body-tertiary">
-              <div class="container-fluid">
+              <div class="container">
                 <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
                 <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
                 <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -53,7 +53,7 @@
             <% if user_signed_in? %>
               <li class="nav-item">
                 <%= link_to '投稿する', new_post_path, class: 'nav-link text-dark' %>
-              </li>            
+              </li>
               <li class="nav-item">
                 <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
               </li>

@@ -5,3 +5,17 @@ ja:
         nickname: ニックネーム
         text: テキスト
         image: 画像
+
+ja:
+  enums:
+    user:
+      is_actives:
+        active: "表示"
+        passive: "非表示"
+
+ja:
+  enums:
+    post:
+      is_actives:
+        active: "表示"
+        passive: "非表示"
