@@ -31,6 +31,9 @@ class Public::PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    unless @post.user.id == current_user.id
+    redirect_to post_path(@post.id)
+    end
     @tag_list = @post.tags.pluck(:name).join(',')
   end
 
@@ -48,11 +51,7 @@ class Public::PostsController < ApplicationController
   def destroy
   	post = Post.find(params[:id])
   	post.destroy
-      if current_user ==  admin
-  	    redirect_to request.referer, notice: "投稿を削除しました"
-      else
-        redirect_to request.referer, notice: "Solaleとさよならしました"
-      end
+  	 redirect_to request.referer, notice: "投稿を削除しました"
   end
 
   def search

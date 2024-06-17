@@ -35,71 +35,80 @@
   <div class="col-9">
     <h3>Solale一覧</h3>
   </div>
-  <div class="row">
-    <% @posts.each do |post| %>
-      <div class="col-md-4">
-        <div class="card mt-4 shadow-lg">
-          <div>
-            <%= link_to post_path(post.id) do %>
-              <%= image_tag post.image, class: "card-img-top" %>
-            <% end %>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-10">
-                <p class="card-tag">
-                  <% post.tags.each do |tag| %>
-                    ＃<%= tag.name %>
-                  <% end %>
-                  <% if @user == current_user %>
-                  <%= link_to edit_post_path(post.id) do %>
-                    <i class="fa-solid fa-file-pen"></i>
-                  <% end %>
-                  <%= post.likes.count %> Like
-                </p><% end %>
-                <p>Post Date:<%= post.created_at.strftime('%Y/%m/%d') %></p>
-                <div class="row">
-                  <div class="col">Comment:<%= post.comments.count %></div>
-                  <div class="col text-right">
+  <% if @posts.count == 0 %>
+    <h3 class="m-5 text-center">まだSolaleを投稿していません</h3>
+  <% else %>
+    <div class="row">
+      <% @posts.each do |post| %>
+        <div class="col-md-4">
+          <div class="card mt-4 shadow-lg">
+            <div>
+              <%= link_to post_path(post.id) do %>
+                <%= image_tag post.image, class: "card-img-top" %>
+              <% end %>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-10">
+                  <p class="card-tag">
+                    <% post.tags.each do |tag| %>
+                      ＃<%= tag.name %>
+                    <% end %>
                     <% if @user == current_user %>
-                    <%= link_to post_path(post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
-                      <i class="fa-solid fa-trash-can"></i>
+                    <%= link_to edit_post_path(post.id) do %>
+                      <i class="fa-solid fa-file-pen"></i>
                     <% end %>
-                    <% end %>
+                    <%= post.likes.count %> Like
+                  </p><% end %>
+                  <p>Post Date:<%= post.created_at.strftime('%Y/%m/%d') %></p>
+                  <div class="row">
+                    <div class="col">Comment:<%= post.comments.count %></div>
+                    <div class="col text-right">
+                      <% if @user == current_user %>
+                      <%= link_to post_path(post.id), method: :delete, data: {confirm: "削除しますか？"} do %>
+                        <i class="fa-solid fa-trash-can"></i>
+                      <% end %>
+                      <% end %>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="col-9">
     <h3>いいねしたSolale</h3>
   </div>
-  <div class="row">
-    <% @like_posts.each do |post| %>
-      <div class="col-md-4">
-        <div class="card mt-4 shadow-lg">
-          <div>
-            <%= link_to post_path(post.id) do %>
-              <%= image_tag post.image, class: "card-img-top" %>
-            <% end %>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-10">
-                <p class="card-tag">
-                  From:<%= post.user.name %>
-                  <% post.tags.each do |tag| %>
-                    ＃<%= tag.name %>
-                  <% end %>
+  <% if @like_posts.count == 0 %>
+    <h3 class="m-5 text-center">まだSolaleをいいねしていません</h3>
+  <% else %>
+    <div class="row">
+      <% @like_posts.each do |post| %>
+        <div class="col-md-4">
+          <div class="card mt-4 shadow-lg">
+            <div>
+              <%= link_to post_path(post.id) do %>
+                <%= image_tag post.image, class: "card-img-top" %>
+              <% end %>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-10">
+                  <p class="card-tag">
+                    From:<%= post.user.name %>
+                    <% post.tags.each do |tag| %>
+                      ＃<%= tag.name %>
+                    <% end %>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

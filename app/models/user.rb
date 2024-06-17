@@ -13,7 +13,10 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   GUEST_USER_EMAIL = "guest@example.com"
-  
+
+  validates :name, presence: true, length: { maximum: 20 }
+  validates :email, presence: true, uniqueness: true
+
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
