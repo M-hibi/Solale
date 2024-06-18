@@ -44,7 +44,11 @@
 
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-            <% if user_signed_in? %>
+            <% if admin_signed_in? %>
+              <li>
+                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+              </li>
+            <% elsif user_signed_in? %>
               <li class="nav-item">
                 <%= link_to '投稿する', new_post_path, class: 'nav-link text-dark' %>
               </li>
@@ -53,10 +57,6 @@
               </li>
               <li class="nav-item">
                 <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-dark' %>
-              </li>
-            <% elsif admin_signed_in? %>
-              <li>
-                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
               </li>
             <% else %>
               <li class="nav-item">

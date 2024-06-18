@@ -10,18 +10,15 @@ Rails.application.routes.draw do
     devise_for :users
     root to: "homes#top"
 
-    resources :users do
-      member do
-      get :followings, :followers
-      end
-    end
-
     resources :users, only: [:show, :edit, :update] do
       get   '/users/:id/confirm',  to: 'users#confirm', as: 'users_confirm'
       patch  '/users/:id/withdraw', to: 'users#withdraw', as: 'users_withdraw'
       resource :follows, only: [:create, :destroy]
       get "followings" => "follows#followings", as: "followings"
       get "followers" => "follows#followers", as: "followers"
+      member do
+      get :followings, :followers
+      end
     end
 
     resources :posts do
