@@ -77,7 +77,8 @@
           </div>
         </div>
       <% end %>
-    </div>
+    </div>  
+    <%= paginate @posts, theme: 'bootstrap-5' %>
   <% end %>
 
   <div class="col-9">
@@ -110,5 +111,6 @@
         </div>
       <% end %>
     </div>
+    <%= paginate @like_posts, theme: 'bootstrap-5' %>
   <% end %>
 </div>

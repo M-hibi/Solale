@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resource :likes, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
       resource :reports, only: [:create, :destroy]
+      delete "erasure", to: 'posts#erasure', as: 'post_erasure'
     end
     get "search", to: 'posts#search', as: 'posts_search'
 

@@ -19,3 +19,13 @@ ja:
       is_actives:
         active: "表示"
         passive: "非表示"
+
+
+ja:
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+      truncate: "..."

@@ -28,6 +28,7 @@
         </div>
       <% end %>
     </div>
+    <%= paginate @reports, theme: 'bootstrap-5' %>
   <% end %>
   <h3>非表示投稿一覧</h3>
   <% if @posts.count == 0 %>
@@ -47,7 +48,7 @@
                   <p class="card-tag">タグ：<% post.tags.each do |tag| %>
                     ＃<%= tag.name %><% end %></p>
                   <div><%= link_to 'ユーザを削除する', admin_user_path(post.user), class: "btn btn-info", method: :delete, data: { confirm: '悪質ユーザを削除します。' } %></div>
-                  <div class="mt-3"><%= link_to '投稿を削除する', post_path(post), class: "btn btn-info", method: :delete, data: { confirm: '投稿を削除します。' } %></div>
+                  <div class="mt-3"><%= link_to '投稿を削除する', post_post_erasure_path(post), class: "btn btn-info", method: :delete, data: { confirm: '投稿を削除します。' } %></div>
                 </div>
               </div>
             </div>

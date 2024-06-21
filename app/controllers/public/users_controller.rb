@@ -5,18 +5,19 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-  	@posts = @user.posts
+  	@posts = @user.posts.page(params[:page]).per(6)
     likes = Like.where(user_id: @user.id).pluck(:post_id)
     @like_posts = Post.find(likes)
+    @like_posts = Kaminari.paginate_array(@like_posts).page(params[:page]).per(6)
   end
-  
+
   def edit
     @user = User.find(params[:id])
    unless @user.id == current_user.id
     redirect_to user_path(current_user.id)
    end
-  end   
-  
+  end
+
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -25,12 +26,12 @@ class Public::UsersController < ApplicationController
     render:edit
     end
   end
-  
+
   def followings
     @users = @user.followings
   end
 
-  
+
   def confirm
   end
 
@@ -39,23 +40,23 @@ class Public::UsersController < ApplicationController
     @user.update(is_active: true)
     reset_session
     flash[:notice] = "今までのご利用ありがとうございました。"
-    redirect_to root_path  
+    redirect_to root_path
   end
 
   private
   def user_params
     params.require(:user).permit(:name, :introduction)
   end
-  
+
   def set_user
     @user = User.find(params[:id])
   end
-  
+
   def is_matching_login_user
     user = User.find(params[:id])
     unless user.id == current_user.id
       redirect_to user_path(current_user.id)
     end
-  end  
+  end
 
 end

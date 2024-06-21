@@ -5,7 +5,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page]).order(created_at: :desc)
+    @posts = Post.all.order("created_at DESC").page(params[:page]).per(12)
     @notifications = current_user.notifications.order(created_at: :desc)
     @notifications.where(checked: false).each do |notification|
     notification.update(checked: true)
@@ -13,7 +13,7 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id]).page(params[:page])
     @user = @post.user_id
     @comment = Comment.new
   end
@@ -59,6 +59,11 @@ class Public::PostsController < ApplicationController
       @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}")
   end
 
+  def erasure
+  	post = Post.find(params[:post_id])
+  	post.destroy
+  	redirect_to request.referer, notice: "投稿を削除しました"
+  end
 
   private
 
