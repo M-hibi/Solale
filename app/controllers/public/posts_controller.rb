@@ -13,7 +13,8 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id]).page(params[:page])
+    @post = Post.find(params[:id])
+    @post = Kaminari.paginate_array(@post).page(params[:page])
     @user = @post.user_id
     @comment = Comment.new
   end
