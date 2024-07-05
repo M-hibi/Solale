@@ -1,1 +1,1 @@
-# Admin.create!(email: 'admin@admin.solale.jp', password: 'solalepass', password_confirmation: 'solalepass')
+Admin.create!(email: 'admin@admin.solale.jp', password: 'solalepass', password_confirmation: 'solalepass')

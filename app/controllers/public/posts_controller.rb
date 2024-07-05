@@ -5,7 +5,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all.order("created_at DESC").page(params[:page]).per(12)
+    @posts = Post.where(is_active: false).order("created_at DESC").page(params[:page]).per(12)
     @notifications = current_user.notifications.order(created_at: :desc)
     @notifications.where(checked: false).each do |notification|
     notification.update(checked: true)
@@ -14,7 +14,6 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @post = Kaminari.paginate_array(@post).page(params[:page])
     @user = @post.user_id
     @comment = Comment.new
   end
@@ -57,7 +56,7 @@ class Public::PostsController < ApplicationController
 
   def search
       @tag = params[:tag]
-      @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}")
+      @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}").where(is_active: false)
   end
 
   def erasure
