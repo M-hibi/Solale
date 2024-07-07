@@ -1,4 +1,4 @@
-Admin.create!(email: 'admin@admin.solale.jp', password: 'solalepass', password_confirmation: 'solalepass')
+Admin.create!(email: 'admin@admin.solale.jp', password: "#{ENV['SECRET_KEY']}", password_confirmation: "#{ENV['SECRET_KEY']}")
 
 olivia = User.find_or_create_by!(email: "olivia@example.com") do |user|
   user.name = "Olivia"
