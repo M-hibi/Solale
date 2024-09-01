@@ -204,3 +204,4 @@
    add_foreign_key "post_tags", "posts"[m
    add_foreign_key "post_tags", "tags"[m
  end[m
+ 
