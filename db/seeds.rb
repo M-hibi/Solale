@@ -98,3 +98,47 @@ Post.create!(
   image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post15.jpg"), filename:"sample-post15.jpg"),
   user: james
 )
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post16.jpg"), filename:"sample-post16.jpg"),
+  user: olivia
+)
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post17.jpg"), filename:"sample-post17.jpg"),
+  user: olivia
+)
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post18.jpg"), filename:"sample-post18.jpg"),
+  user: lucas
+)
+
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post19.jpg"), filename:"sample-post19.jpg"),
+  user: lucas
+)
+
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post20.jpg"), filename:"sample-post20.jpg"),
+  user: lucas
+)
+
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post21.jpg"), filename:"sample-post21.jpg"),
+  user: lucas
+)
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post22.jpg"), filename:"sample-post22.jpg"),
+  user: james
+)
+
+Post.create!(
+  image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post23.jpg"), filename:"sample-post23.jpg"),
+  user: james
+)
+ 
