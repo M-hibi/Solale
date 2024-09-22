@@ -141,4 +141,3 @@ Post.create!(
   image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-post23.jpg"), filename:"sample-post23.jpg"),
   user: james
 )
- 
