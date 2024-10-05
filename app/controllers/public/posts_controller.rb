@@ -32,7 +32,7 @@ class Public::PostsController < ApplicationController
   def edit
     @post = Post.find(params[:id])
     unless @post.user.id == current_user.id
-    redirect_to post_path(@post.id)
+      redirect_to post_path(@post.id)
     end
     @tag_list = @post.tags.pluck(:name).join(',')
   end
@@ -49,27 +49,24 @@ class Public::PostsController < ApplicationController
   end
 
   def destroy
-  	post = Post.find(params[:id])
-  	post.destroy
-  	redirect_to posts_path, notice: "投稿を削除しました"
+    post = Post.find(params[:id])
+    post.destroy
+    redirect_to posts_path, notice: "投稿を削除しました"
   end
 
   def search
-      @tag = params[:tag]
-      @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}").where(is_active: false)
+    @tag = params[:tag]
+    @posts = Post.page(params[:page]).joins(:tags).where('name LIKE ?',"#{@tag}").where(is_active: false)
   end
 
   def erasure
-  	post = Post.find(params[:post_id])
-  	post.destroy
-  	redirect_to request.referer, notice: "投稿を削除しました"
+    post = Post.find(params[:post_id])
+    post.destroy
+    redirect_to request.referer, notice: "投稿を削除しました"
   end
 
   private
-
   def post_params
     params.require(:post).permit(:image).merge(user_id:current_user.id)
   end
-
-
 end

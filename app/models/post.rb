@@ -7,7 +7,6 @@ class Post < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_one :notification, as: :subject, dependent: :destroy
-
   validates :image, presence: true
 
 
@@ -28,5 +27,4 @@ class Post < ApplicationRecord
       self.tags << post_tag
     end
   end
-
 end

@@ -2,7 +2,6 @@ class Public::UsersController < ApplicationController
   before_action :is_matching_login_user, only: [:edit, :update]
   before_action :set_user, only: [:followings]
 
-
   def show
     @user = User.find(params[:id])
   	@posts = @user.posts.page(params[:page]).per(6)
@@ -13,9 +12,9 @@ class Public::UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-   unless @user.id == current_user.id
-    redirect_to user_path(current_user.id)
-   end
+    unless @user.id == current_user.id
+      redirect_to user_path(current_user.id)
+    end
   end
 
   def update
@@ -30,7 +29,6 @@ class Public::UsersController < ApplicationController
   def followings
     @users = @user.followings
   end
-
 
   def confirm
   end
@@ -58,5 +56,4 @@ class Public::UsersController < ApplicationController
       redirect_to user_path(current_user.id)
     end
   end
-
 end
