@@ -26,21 +26,21 @@
           <a class="navbar-brand p-1" href="/"><i class="fa-solid fa-sun"></i>Solale</a>
         <% end %>
 
-          <% if user_signed_in? %>
-            <nav class="navbar bg-body-tertiary">
-              <div class="container">
-                <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
-                <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
-                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <% end %>
-              </div>
-            </nav>
-          <% end %>
+        <% if user_signed_in? %>
+          <nav class="navbar bg-body-tertiary">
+            <div class="container">
+              <%= form_with url: posts_search_path, local: true, method: :get do |f| %>
+              <%= f.text_field :tag, placeholder: "Solaleをさがす" %>
+              <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <% end %>
+            </div>
+          </nav>
+        <% end %>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
